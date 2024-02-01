@@ -40,3 +40,14 @@ document
       document.querySelector("p#weather").innerHTML = fehrText
     }
   })
+
+let dataTime = new Date()
+
+document.querySelector("span[data-time=hours]").textContent =
+  dataTime.getHours()
+
+document.querySelector("span[data-time=minutes]").textContent =
+  dataTime.getMinutes()
+
+document.querySelector("span[data-time=seconds]").textContent =
+  dataTime.getSeconds()
