@@ -58,3 +58,40 @@ setInterval(function () {
     .toString()
     .padStart(2, "0")
 }, 1000)
+//<img src="./assets/gallery/image1.jpg" alt="Thumbnail Image 1" data-array-index="0" data-selected="true">
+
+const galeryImages = [
+  {src: "./assets/gallery/image1.jpg", alt: "Thumbnail Image 1"},
+  {src: "./assets/gallery/image2.jpg", alt: "Thumbnail Image 2"},
+  {src: "./assets/gallery/image3.jpg", alt: "Thumbnail Image 3"},
+]
+
+let mainImage = document.querySelector("#gallery > img")
+let thumbnails = document.querySelector("#gallery .thumbnails")
+
+mainImage.src = galeryImages[0].src
+mainImage.alt = galeryImages[0].alt
+
+//<img src="./assets/gallery/image2.jpg" alt="Thumbnail Image 2" data-array-index="1" data-selected="false">
+
+galeryImages.forEach(function (image, index) {
+  let thumb = document.createElement("img")
+  thumb.src = image.src
+  thumb.alt = image.alt
+  thumb.dataset.arrayIndex = index
+  thumb.dataset.selected = index === 0 ? true : false
+
+  thumb.addEventListener("click", function (e) {
+    let selectedIndex = e.target.dataset.arrayIndex
+    let selectedImage = galeryImages[selectedIndex]
+    mainImage.src = selectedImage.src
+    mainImage.alt = selectedIndex.alt
+
+    thumbnails.querySelectorAll("img").forEach(function (img) {
+      img.dataset.selected = false
+    })
+
+    e.target.dataset.selected = true
+  })
+  thumbnails.appendChild(thumb)
+})
