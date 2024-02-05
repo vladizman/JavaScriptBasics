@@ -41,13 +41,14 @@ document
     }
   })
 
-let dataTime = new Date()
+setInterval(function () {
+  let dataTime = new Date()
+  document.querySelector("span[data-time=hours]").textContent =
+    dataTime.getHours()
 
-document.querySelector("span[data-time=hours]").textContent =
-  dataTime.getHours()
+  document.querySelector("span[data-time=minutes]").textContent =
+    dataTime.getMinutes()
 
-document.querySelector("span[data-time=minutes]").textContent =
-  dataTime.getMinutes()
-
-document.querySelector("span[data-time=seconds]").textContent =
-  dataTime.getSeconds()
+  document.querySelector("span[data-time=seconds]").textContent =
+    dataTime.getSeconds()
+}, 1000)
