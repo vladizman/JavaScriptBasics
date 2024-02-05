@@ -43,12 +43,18 @@ document
 
 setInterval(function () {
   let dataTime = new Date()
-  document.querySelector("span[data-time=hours]").textContent =
-    dataTime.getHours()
+  document.querySelector("span[data-time=hours]").textContent = dataTime
+    .getHours()
+    .toString()
+    .padStart(2, "0")
 
-  document.querySelector("span[data-time=minutes]").textContent =
-    dataTime.getMinutes()
+  document.querySelector("span[data-time=minutes]").textContent = dataTime
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")
 
-  document.querySelector("span[data-time=seconds]").textContent =
-    dataTime.getSeconds()
+  document.querySelector("span[data-time=seconds]").textContent = dataTime
+    .getSeconds()
+    .toString()
+    .padStart(2, "0")
 }, 1000)
