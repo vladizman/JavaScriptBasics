@@ -4,6 +4,45 @@ const galeryImages = [
   {src: "./assets/gallery/image2.jpg", alt: "Thumbnail Image 2"},
   {src: "./assets/gallery/image3.jpg", alt: "Thumbnail Image 3"},
 ]
+
+const products = [
+  {
+    title: "AstroFiction",
+    author: "John Doe",
+    price: 49.9,
+    image: "./assets/products/img6.png",
+  },
+  {
+    title: "Space Odissey",
+    author: "Marie Anne",
+    price: 35,
+    image: "./assets/products/img1.png",
+  },
+  {
+    title: "Doomed City",
+    author: "Jason Cobert",
+    price: 0,
+    image: "./assets/products/img2.png",
+  },
+  {
+    title: "Black Dog",
+    author: "John Doe",
+    price: 85.35,
+    image: "./assets/products/img3.png",
+  },
+  {
+    title: "My Little Robot",
+    author: "Pedro Paulo",
+    price: 0,
+    image: "./assets/products/img5.png",
+  },
+  {
+    title: "Garden Girl",
+    author: "Ankit Patel",
+    price: 45,
+    image: "./assets/products/img4.png",
+  },
+]
 //RightMenu
 function menuHandler() {
   document
@@ -119,8 +158,97 @@ function galleryHendler() {
   })
 }
 
+//Product Menu
+function populateProducts(productList) {
+  let productsSection = document.querySelector(".products-area")
+  productsSection.textContent = ""
+
+  //maping the products
+  productList.forEach(function (product, index) {
+    //creating the div for Products
+    let productElm = document.createElement("div")
+    productElm.classList.add("product-item")
+
+    //creating the image inside the div
+    let productImage = document.createElement("img")
+    productImage.src = product.image
+    productImage.alt = "image for : " + product.title
+
+    //creating the productTitle
+    let productDetails = document.createElement("div")
+    productDetails.classList.add("product-details")
+    //create product title, author, price-title and price
+    let productTitle = document.createElement("h3")
+    productTitle.classList.add("product-title")
+    productTitle.textContent = product.title
+
+    let productAuthor = document.createElement("p")
+    productAuthor.classList.add("product-author")
+    productAuthor.textContent = product.author
+
+    let priceTitle = document.createElement("p")
+    priceTitle.classList.add("price-title")
+    priceTitle.textContent = "price"
+
+    let productPrice = document.createElement("p")
+    productPrice.classList.add("product-price")
+    productPrice.textContent =
+      product.price > 0 ? "$" + product.price.toFixed(2) : "free"
+
+    //append the product details
+    productDetails.append(productTitle)
+    productDetails.append(productAuthor)
+    productDetails.append(priceTitle)
+    productDetails.append(productPrice)
+
+    //add all child HTML elemets to the product
+    productElm.append(productImage)
+    productElm.append(productDetails)
+
+    //add complete individual product to the product section
+    productsSection.append(productElm)
+  })
+}
+
+function productsHandler() {
+  //creating a vari
+
+  let freeProducts = products.filter(function (item) {
+    return !item.price || item.price <= 0
+  })
+
+  let paidProducts = products.filter(function (item) {
+    return item.price > 0
+  })
+
+  populateProducts(products)
+
+  document.querySelector(
+    ".products-filter label[for=all] span.product-amount"
+  ).textContent = products.length
+
+  document.querySelector(
+    ".products-filter label[for=paid] span.product-amount"
+  ).textContent = paidProducts.length
+
+  document.querySelector(
+    ".products-filter label[for=free] span.product-amount"
+  ).textContent = freeProducts.length
+
+  let productsFilter = document.querySelector(".products-filter")
+  productsFilter.addEventListener("click", function (e) {
+    if (e.target.id === "all") {
+      populateProducts(products)
+    } else if (e.target.id === "paid") {
+      populateProducts(paidProducts)
+    } else if (e.target.id === "free") {
+      populateProducts(freeProducts)
+    }
+  })
+}
 //PageLoud
-menuHandler()
-clockHendler()
-greetingHandler()
-galleryHendler()
+menuHandler(),
+  clockHendler(),
+  greetingHandler(),
+  galleryHendler(),
+  productsHandler()
