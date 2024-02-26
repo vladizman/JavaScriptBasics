@@ -1,3 +1,6 @@
+const WeatherApiKey = "9dec45844ee9b2853a1281e6e99cd276"
+const WeatherApiURL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}`
+
 //Important arrays
 const galeryImages = [
   {src: "./assets/gallery/image1.jpg", alt: "Thumbnail Image 1"},
@@ -253,7 +256,17 @@ function handleFooter() {
   ).textContent = `©${currentYear} - All rights reserved`
 }
 
-navigator.geolocation.getCurrentPosition(Position => {})
+navigator.geolocation.getCurrentPosition(position => {
+  let latitude = position.coords.latitude
+  let longitude = position.coords.longitude
+
+  let url = WeatherApiURL.replace("{lat}", latitude)
+    .replace("{lon}", longitude)
+    .replace("{API key}", WeatherApiKey)
+  fetch(url)
+    .then(response => response.json())
+    .then(data => console.log(data))
+})
 
 //PageLoud
 menuHandler(),
