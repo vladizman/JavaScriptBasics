@@ -213,13 +213,9 @@ function populateProducts(productList) {
 function productsHandler() {
   //creating a vari
 
-  let freeProducts = products.filter(function (item) {
-    return !item.price || item.price <= 0
-  })
+  let freeProducts = products.filter(item => !item.price || item.price <= 0)
 
-  let paidProducts = products.filter(function (item) {
-    return item.price > 0
-  })
+  let paidProducts = products.filter(item => item.price > 0)
 
   populateProducts(products)
 
@@ -246,9 +242,23 @@ function productsHandler() {
     }
   })
 }
+
+//<footer>©2023 - All rights reserved</footer>
+
+function handleFooter() {
+  let currentYear = new Date().getFullYear()
+
+  document.querySelector(
+    "footer"
+  ).textContent = `©${currentYear} - All rights reserved`
+}
+
+navigator.geolocation.getCurrentPosition(Position => {})
+
 //PageLoud
 menuHandler(),
   clockHendler(),
   greetingHandler(),
   galleryHendler(),
-  productsHandler()
+  productsHandler(),
+  handleFooter()
