@@ -1,5 +1,5 @@
 const WeatherApiKey = "9dec45844ee9b2853a1281e6e99cd276"
-const WeatherApiURL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}`
+const WeatherApiURL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric`
 
 //Important arrays
 const galeryImages = [
@@ -79,31 +79,54 @@ function greetingHandler() {
   } else {
     ;("Greetings!")
   }
-  const weatherCondition = "Sunny"
-  const userLocation = "Chisinau"
-  let temperature = 22
-  let celsiusText = `The weather is ${weatherCondition} in ${userLocation} and it's ${temperature.toFixed(
-    1
-  )}°C outside.`
-
-  let fehrText = `The weather is ${weatherCondition} in ${userLocation} and it's ${calculateTemperature(
-    temperature
-  ).toFixed(1)}°C outside.`
-
   document.querySelector("#greeting").innerHTML = greetingText
-  document.querySelector("p#weather").innerHTML = celsiusText
-
-  document
-    .querySelector(".weather-group")
-    .addEventListener("click", function (e) {
-      if (e.target.id == "celsius") {
-        document.querySelector("p#weather").innerHTML = celsiusText
-      } else if (e.target.id == "fahr") {
-        document.querySelector("p#weather").innerHTML = fehrText
-      }
-    })
 }
 
+//weatherText
+function handleFooter() {
+  let currentYear = new Date().getFullYear()
+
+  document.querySelector(
+    "footer"
+  ).textContent = `©${currentYear} - All rights reserved`
+}
+function weatherHandler() {
+  navigator.geolocation.getCurrentPosition(position => {
+    let latitude = position.coords.latitude
+    let longitude = position.coords.longitude
+
+    let url = WeatherApiURL.replace("{lat}", latitude)
+      .replace("{lon}", longitude)
+      .replace("{API key}", WeatherApiKey)
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const condition = data.weather[0].description
+        const location = data.name
+        let temperature = data.main.temp
+
+        let celsiusText = `The weather is ${condition} in ${location} and it's ${temperature.toFixed(
+          1
+        )}°C outside.`
+
+        let fehrText = `The weather is ${condition} in ${location} and it's ${calculateTemperature(
+          temperature
+        ).toFixed(1)}°C outside.`
+
+        document.querySelector("p#weather").innerHTML = celsiusText
+
+        document
+          .querySelector(".weather-group")
+          .addEventListener("click", function (e) {
+            if (e.target.id == "celsius") {
+              document.querySelector("p#weather").innerHTML = celsiusText
+            } else if (e.target.id == "fahr") {
+              document.querySelector("p#weather").innerHTML = fehrText
+            }
+          })
+      })
+  })
+}
 //Header part
 
 //Clock and time
@@ -248,30 +271,11 @@ function productsHandler() {
 
 //<footer>©2023 - All rights reserved</footer>
 
-function handleFooter() {
-  let currentYear = new Date().getFullYear()
-
-  document.querySelector(
-    "footer"
-  ).textContent = `©${currentYear} - All rights reserved`
-}
-
-navigator.geolocation.getCurrentPosition(position => {
-  let latitude = position.coords.latitude
-  let longitude = position.coords.longitude
-
-  let url = WeatherApiURL.replace("{lat}", latitude)
-    .replace("{lon}", longitude)
-    .replace("{API key}", WeatherApiKey)
-  fetch(url)
-    .then(response => response.json())
-    .then(data => console.log(data))
-})
-
 //PageLoud
 menuHandler(),
   clockHendler(),
   greetingHandler(),
+  weatherHandler(),
   galleryHendler(),
   productsHandler(),
   handleFooter()
