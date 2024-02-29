@@ -125,6 +125,10 @@ function weatherHandler() {
             }
           })
       })
+      .catch(err => {
+        document.querySelector("p#weather").innerHTML =
+          "Unable to get the temperature, try again later"
+      })
   })
 }
 //Header part
